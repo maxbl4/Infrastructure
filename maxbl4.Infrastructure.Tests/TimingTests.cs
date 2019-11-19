@@ -34,7 +34,7 @@ namespace maxbl4.Infrastructure.Tests
                     .Logger(logger.instance)
                     .Context("ctx")
                     .FailureDetails(() => $"{details++}")
-                    .Timeout(10)
+                    .Timeout(10000)
                     .Expect(() => true);
             
             logger.messages[0].ShouldBe("[maxbl4.Infrastructure.Tests.TimingTests] Should_write_logs_on_success => Begin wait ctx");

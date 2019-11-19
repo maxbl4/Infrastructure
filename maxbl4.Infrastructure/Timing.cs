@@ -59,7 +59,7 @@ using System.Diagnostics;
             {
                 if (condition())
                 {
-                    logger?.Debug($"{caller} => Wait success {context} after {timeout}", 
+                    logger?.Debug($"{caller} => Wait success {context} after {stopwatch.Elapsed}", 
                         caller, context, stopwatch.Elapsed);
                     return true;
                 }
