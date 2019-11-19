@@ -14,7 +14,7 @@ using System.Diagnostics;
         private string context;
         private Lazy<string> failureDetails;
         private Stopwatch stopwatch;
-
+        
         public Timing Timeout(TimeSpan timeout)
         {
             this.timeout = timeout;
@@ -33,10 +33,20 @@ using System.Diagnostics;
             return this;
         }
         
-        public Timing Logger(ILogger logger, string context, Func<string> failureDetails)
+        public Timing Logger(ILogger logger)
         {
             this.logger = logger;
+            return this;
+        }
+        
+        public Timing Context(string context)
+        {
             this.context = context;
+            return this;
+        }
+        
+        public Timing FailureDetails(Func<string> failureDetails)
+        {
             this.failureDetails = new Lazy<string>(failureDetails);
             return this;
         }

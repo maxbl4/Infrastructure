@@ -15,7 +15,9 @@ namespace maxbl4.Infrastructure.Tests
             var logger = MemoryLogger.Serilog<TimingTests>();
             var ex = Assert.Throws<TimeoutException>(() =>
                 new Timing()
-                    .Logger(logger.instance, "ctx", () => $"{details++}")
+                    .Logger(logger.instance)
+                    .Context("ctx")
+                    .FailureDetails(() => $"{details++}")
                     .Timeout(10)
                     .Expect(() => false));
             ex.Message.ShouldMatch(@"\[Should_throw_with_caller_name\] Wait failed ctx after 00:00:00.\d+ details 101");
@@ -29,7 +31,9 @@ namespace maxbl4.Infrastructure.Tests
             var details = 101;
             var logger = MemoryLogger.Serilog<TimingTests>();
             new Timing()
-                    .Logger(logger.instance, "ctx", () => $"{details++}")
+                    .Logger(logger.instance)
+                    .Context("ctx")
+                    .FailureDetails(() => $"{details++}")
                     .Timeout(10)
                     .Expect(() => true);
             
