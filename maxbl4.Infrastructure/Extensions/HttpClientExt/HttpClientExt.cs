@@ -1,6 +1,6 @@
 ﻿using System.Net.Http;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
+using maxbl4.Infrastructure.Extensions.HttpContentExt;
 
 namespace maxbl4.Infrastructure.Extensions.HttpClientExt
 {
@@ -9,7 +9,7 @@ namespace maxbl4.Infrastructure.Extensions.HttpClientExt
         public static async Task<T> GetAsync<T>(this HttpClient client, string uri)
         {
             var response = await client.GetAsync(uri);
-            return JsonConvert.DeserializeObject<T>(await response.Content.ReadAsStringAsync());
+            return await response.Content.ReadAs<T>();
         }
     }
 }

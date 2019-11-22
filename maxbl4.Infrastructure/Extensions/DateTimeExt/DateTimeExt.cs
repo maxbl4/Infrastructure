@@ -5,18 +5,18 @@ namespace maxbl4.Infrastructure.Extensions.DateTimeExt
 {
     public static class DateTimeExt
     {
-        public static DateTimeOffset ParseAsUtc(string value, string format)
+        public static DateTime ParseAsUtc(string value, string format)
         {
-            return DateTimeOffset.ParseExact(value, format, CultureInfo.InvariantCulture)
-                .ToUniversalTime().Add(TimeZoneInfo.Local.BaseUtcOffset);
+            var t = DateTime.ParseExact(value, format, CultureInfo.InvariantCulture, DateTimeStyles.AssumeLocal);
+            return new DateTime(t.Ticks, DateTimeKind.Utc);
         }
 
-        public static bool TryParseAsUtc(string value, string format, CultureInfo culture, DateTimeStyles styles, out DateTimeOffset time)
+        public static bool TryParseAsUtc(string value, string format, DateTimeStyles styles, out DateTime time)
         {
-            var r = DateTimeOffset.TryParseExact(value,
+            var r = DateTime.TryParseExact(value,
                 format, CultureInfo.InvariantCulture,
                 styles, out var t);
-            time = t.ToUniversalTime().Add(TimeZoneInfo.Local.BaseUtcOffset);
+            time = new DateTime(t.Ticks, DateTimeKind.Utc);
             return r;
         }
     }
