@@ -1,52 +1,40 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Serilog;
+using Serilog.Events;
 
 namespace maxbl4.Infrastructure.Extensions.LoggerExt
 {
     public static class LoggerExt
     {
-        public static void Swallow(this ILogger logger, Action action)
+        private static Task SwallowImpl(this ILogger logger, Func<Task> func, LogEventLevel level)
         {
             try
             {
-                action();
+                return func().ContinueWith(x =>
+                {
+                    if (x.IsFaulted)
+                        logger.Write(level, x.Exception, $"{level} swallowed");
+                });
             }
             catch (Exception ex)
             {
-                logger.Warning(ex, "Warning swallowed");
+                logger.Write(level, ex, $"{level} swallowed");
+                return Task.CompletedTask;
             }
         }
         
         public static Task Swallow(this ILogger logger, Func<Task> func)
         {
-            try
-            {
-                return func().ContinueWith(x => logger.Warning(x.Exception, "Warning swallowed"),
-                    TaskContinuationOptions.OnlyOnFaulted);
-            }
-            catch (Exception ex)
-            {
-                logger.Warning(ex, "Warning swallowed");
-                return Task.CompletedTask;
-            }
+            return SwallowImpl(logger, func, LogEventLevel.Warning);
         }
         
         public static Task SwallowError(this ILogger logger, Func<Task> func)
         {
-            try
-            {
-                return func().ContinueWith(x => logger.Error(x.Exception, "Error swallowed"),
-                    TaskContinuationOptions.OnlyOnFaulted);
-            }
-            catch (Exception ex)
-            {
-                logger.Error(ex, "Error swallowed");
-                return Task.CompletedTask;
-            }
+            return SwallowImpl(logger, func, LogEventLevel.Error);
         }
-        
-        public static void SwallowError(this ILogger logger, Action action)
+     
+        private static void SwallowImpl(this ILogger logger, Action action, LogEventLevel level)
         {
             try
             {
@@ -54,8 +42,18 @@ namespace maxbl4.Infrastructure.Extensions.LoggerExt
             }
             catch (Exception ex)
             {
-                logger.Error(ex, "Error swallowed");
+                logger.Write(level, ex, $"{level} swallowed");
             }
+        }
+        
+        public static void Swallow(this ILogger logger, Action action)
+        {
+            SwallowImpl(logger, action, LogEventLevel.Warning);
+        }
+        
+        public static void SwallowError(this ILogger logger, Action action)
+        {
+            SwallowImpl(logger, action, LogEventLevel.Error);
         }
     }
 }
