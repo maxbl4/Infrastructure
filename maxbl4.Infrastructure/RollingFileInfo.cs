@@ -29,37 +29,8 @@ namespace maxbl4.Infrastructure
                 File.Delete(f);
             }
         }
-        
-        private IEnumerable<string> ScanOld(string originalFilename, int numberOfDigits, bool returnExisting)
-        {
-            if (!File.Exists(originalFilename))
-            {
-                yield return originalFilename;
-                yield break;
-            }
-            var dir = Path.GetDirectoryName(originalFilename) ?? "";
-            var ext = Path.GetExtension(originalFilename) ?? "";
-            var name = Path.GetFileNameWithoutExtension(originalFilename) ?? "";
-            var prevName = originalFilename;
-            for (var n = numberOfDigits; n < 10; n++)
-            {
-                for (var i = 1; i < Math.Pow(10, n); i++)
-                {
-                    yield return prevName;
-                    var num = i.ToString(new string('0', n));
-                    var nextName = Path.Combine(dir, $"{name}_{num}{ext}");
-                    if (!File.Exists(nextName))
-                    {
-                        if (!returnExisting)
-                            yield return nextName;
-                        yield break;
-                    }
-                    prevName = nextName;
-                }
-            }
 
-            throw new IndexOutOfRangeException("Could not find free file name"); 
-        }
+        public IEnumerable<string> AllCurrentFiles => Scan(BaseFile, NumberOfDigits, false); 
         
         private IEnumerable<string> Scan(string originalFilename, int numberOfDigits, bool returnNext)
         {

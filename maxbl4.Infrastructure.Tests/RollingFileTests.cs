@@ -40,8 +40,10 @@ namespace maxbl4.Infrastructure.Tests
         {
             File.WriteAllText("cc.txt", "text");
             File.WriteAllText("cc_001.txt", "text");
-            new RollingFileInfo("cc.txt").NextFile.ShouldBe("cc_002.txt");
-            new RollingFileInfo("cc.txt").CurrentFile.ShouldBe("cc_001.txt");
+            var cc = new RollingFileInfo("cc.txt");
+            cc.NextFile.ShouldBe("cc_002.txt");
+            cc.CurrentFile.ShouldBe("cc_001.txt");
+            cc.AllCurrentFiles.ShouldBe(new [] {"cc.txt", "cc_001.txt"});
         }
         
         [Fact]
