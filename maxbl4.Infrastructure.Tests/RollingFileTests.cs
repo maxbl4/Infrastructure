@@ -15,6 +15,7 @@ namespace maxbl4.Infrastructure.Tests
             aaa.CurrentFile.ShouldBe("aaa");
             aaa.BaseExists.ShouldBeFalse();
             aaa.Exist.ShouldBeFalse();
+            aaa.Index.ShouldBe(0);
             var full = Path.GetFullPath("aaa");
             full.Length.ShouldBeGreaterThan(3);
             new RollingFileInfo(full).NextFile.ShouldBe(full);
@@ -41,6 +42,7 @@ namespace maxbl4.Infrastructure.Tests
             File.WriteAllText("cc.txt", "text");
             File.WriteAllText("cc_001.txt", "text");
             var cc = new RollingFileInfo("cc.txt");
+            cc.Index.ShouldBe(1);
             cc.NextFile.ShouldBe("cc_002.txt");
             cc.CurrentFile.ShouldBe("cc_001.txt");
             cc.AllCurrentFiles.ShouldBe(new [] {"cc.txt", "cc_001.txt"});
@@ -55,6 +57,7 @@ namespace maxbl4.Infrastructure.Tests
                 File.WriteAllText($"dd_{i}.txt", "text");
             }
             var dd = new RollingFileInfo("dd.txt", 1);
+            dd.Index.ShouldBe(9);
             dd.NextFile.ShouldBe("dd_10.txt");
             dd.CurrentFile.ShouldBe("dd_9.txt");
             dd.Exist.ShouldBeTrue();
@@ -75,6 +78,7 @@ namespace maxbl4.Infrastructure.Tests
             f.Exist.ShouldBeTrue();
             f.CurrentFile.ShouldBe("eee_005.txt");
             f.NextFile.ShouldBe("eee_006.txt");
+            f.Index.ShouldBe(5);
         }
         
         [Fact]
@@ -88,6 +92,15 @@ namespace maxbl4.Infrastructure.Tests
             f.Exist.ShouldBeTrue();
             f.CurrentFile.ShouldBe(@".\fff\..\fff.txt");
             f.NextFile.ShouldBe(@".\fff\..\fff_001.txt");
+        }
+        
+        [Fact]
+        public void Should_not_throw_on_delete_not_existing()
+        {
+            File.Exists("ggg").ShouldBeFalse();
+            var aaa = new RollingFileInfo("ggg");
+            aaa.Exist.ShouldBeFalse();
+            aaa.Delete();
         }
     }
 }

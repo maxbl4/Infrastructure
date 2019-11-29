@@ -20,19 +20,25 @@ namespace maxbl4.Infrastructure
         }
 
         public bool BaseExists => File.Exists(BaseFile);
-        public bool Exist => Scan(BaseFile, NumberOfDigits, true).Any(File.Exists);
+        public bool Exist => Scan(BaseFile, NumberOfDigits, true).Select(x => x.Name).Any(File.Exists);
 
         public void Delete()
         {
             foreach (var f in Scan(BaseFile, NumberOfDigits, true))
             {
-                File.Delete(f);
+                try
+                {
+                    File.Delete(f.Name);
+                }
+                catch {}
             }
         }
 
-        public IEnumerable<string> AllCurrentFiles => Scan(BaseFile, NumberOfDigits, false); 
+        public int Index => Scan(BaseFile, NumberOfDigits, false).Select(x => x.Index).LastOrDefault();
+
+        public IEnumerable<string> AllCurrentFiles => Scan(BaseFile, NumberOfDigits, false).Select(x => x.Name); 
         
-        private IEnumerable<string> Scan(string originalFilename, int numberOfDigits, bool returnNext)
+        private IEnumerable<FileIndex> Scan(string originalFilename, int numberOfDigits, bool returnNext)
         {
             var existingFiles = new List<FileIndex>();
             if (File.Exists(originalFilename))
@@ -64,12 +70,12 @@ namespace maxbl4.Infrastructure
                 existingFiles.Add(new FileIndex{Name = originalFilename, Index = 0});
             }
             
-            return existingFiles.Select(x => x.Name);
+            return existingFiles;
         }
         
-        public string NextFile => Scan(BaseFile, NumberOfDigits, true).Last();
+        public string NextFile => Scan(BaseFile, NumberOfDigits, true).Select(x => x.Name).Last();
 
-        public string CurrentFile => Scan(BaseFile, NumberOfDigits, false).Last();
+        public string CurrentFile => Scan(BaseFile, NumberOfDigits, false).Select(x => x.Name).Last();
 
         class FileIndex
         {
