@@ -22,16 +22,20 @@ namespace maxbl4.Infrastructure
         public bool BaseExists => File.Exists(BaseFile);
         public bool Exist => Scan(BaseFile, NumberOfDigits, true).Select(x => x.Name).Any(File.Exists);
 
-        public void Delete()
+        public int Delete()
         {
-            foreach (var f in Scan(BaseFile, NumberOfDigits, true))
+            var count = 0;
+            foreach (var f in AllCurrentFiles)
             {
                 try
                 {
-                    File.Delete(f.Name);
+                    File.Delete(f);
+                    count++;
                 }
                 catch {}
             }
+
+            return count;
         }
 
         public int Index => Scan(BaseFile, NumberOfDigits, false).Select(x => x.Index).LastOrDefault();

@@ -62,7 +62,7 @@ namespace maxbl4.Infrastructure.Tests
             dd.CurrentFile.ShouldBe("dd_9.txt");
             dd.Exist.ShouldBeTrue();
             dd.BaseExists.ShouldBeTrue();
-            dd.Delete();
+            dd.Delete().ShouldBe(10);
             dd.Exist.ShouldBeFalse();
             dd.BaseExists.ShouldBeFalse();
             dd.CurrentFile.ShouldBe("dd.txt");
@@ -100,7 +100,7 @@ namespace maxbl4.Infrastructure.Tests
             File.Exists("ggg").ShouldBeFalse();
             var aaa = new RollingFileInfo("ggg");
             aaa.Exist.ShouldBeFalse();
-            aaa.Delete();
+            aaa.Delete().ShouldBe(1);
         }
     }
 }
