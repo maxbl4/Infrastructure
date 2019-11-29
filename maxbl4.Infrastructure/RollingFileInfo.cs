@@ -20,7 +20,7 @@ namespace maxbl4.Infrastructure
         }
 
         public bool BaseExists => File.Exists(BaseFile);
-        public bool Exist => Scan(BaseFile, NumberOfDigits, true).Select(x => x.Name).Any(File.Exists);
+        public bool Exist => AllCurrentFiles.Any(File.Exists);
 
         public int Delete()
         {
@@ -79,7 +79,7 @@ namespace maxbl4.Infrastructure
         
         public string NextFile => Scan(BaseFile, NumberOfDigits, true).Select(x => x.Name).Last();
 
-        public string CurrentFile => Scan(BaseFile, NumberOfDigits, false).Select(x => x.Name).Last();
+        public string CurrentFile => AllCurrentFiles.Last();
 
         class FileIndex
         {
