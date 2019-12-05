@@ -1,8 +1,7 @@
 ﻿﻿using System;
 using System.Threading.Tasks;
 using maxbl4.Infrastructure.Extensions.LoggerExt;
-using maxbl4.RaceLogic.Tests;
-using Shouldly;
+ using Shouldly;
 using Xunit;
 
 namespace maxbl4.Infrastructure.Tests

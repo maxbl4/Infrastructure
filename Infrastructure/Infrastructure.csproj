@@ -2,6 +2,7 @@
 
     <PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
+        <RootNamespace>maxbl4.Infrastructure</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
@@ -11,7 +12,8 @@
       <PackageReference Include="Serilog.Extensions.Logging" Version="3.0.1" />
       <PackageReference Include="Serilog.Sinks.ListOfString" Version="4.1.4.3" />
       <PackageReference Include="Shouldly" Version="3.0.2" />      
-      <PackageReference Include="System.Reactive.Core" Version="4.2.0" />
+      <PackageReference Include="System.Reactive.Core" Version="4.2.0" />      
+      <PackageReference Include="xunit.abstractions" Version="2.0.2" />
     </ItemGroup>
 
     <ItemGroup>

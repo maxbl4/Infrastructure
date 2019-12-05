@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
-using Serilog.Events;
 using Serilog.Extensions.Logging;
- using Serilog.Sinks.ListOfString;
+using Serilog.Sinks.ListOfString;
 
- namespace maxbl4.RaceLogic.Tests
+namespace maxbl4.Infrastructure
 {
     public class MemoryLogger
     {

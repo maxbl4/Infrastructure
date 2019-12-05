@@ -1,6 +1,4 @@
 using System;
-using maxbl4.RaceLogic.Tests;
-using maxbl4.RfidDotNet.Infrastructure;
 using Shouldly;
 using Xunit;
 

@@ -1,10 +1,10 @@
-﻿﻿using System;
+﻿using System;
 using System.Diagnostics;
- using System.Runtime.CompilerServices;
- using System.Threading.Tasks;
- using Serilog;
+using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
+using Serilog;
 
- namespace maxbl4.RfidDotNet.Infrastructure
+namespace maxbl4.Infrastructure
 {
     public class Timing
     {

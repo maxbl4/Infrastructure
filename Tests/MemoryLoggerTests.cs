@@ -1,5 +1,4 @@
-﻿using maxbl4.RaceLogic.Tests;
-using Shouldly;
+﻿using Shouldly;
 using Xunit;
 
 namespace maxbl4.Infrastructure.Tests

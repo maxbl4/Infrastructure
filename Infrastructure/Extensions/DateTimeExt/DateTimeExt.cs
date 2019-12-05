@@ -19,5 +19,23 @@ namespace maxbl4.Infrastructure.Extensions.DateTimeExt
             time = new DateTime(t.Ticks, DateTimeKind.Utc);
             return r;
         }
+        
+        public static DateTime TakeSmaller(this DateTime current, DateTime other)
+        {
+            if (current == default)
+                return other;
+            if (other == default)
+                return current;
+            return current < other ? current : other;
+        }
+        
+        public static DateTime TakeLarger(this DateTime current, DateTime other)
+        {
+            if (current == default)
+                return other;
+            if (other == default)
+                return current;
+            return current > other ? current : other;
+        }
     }
 }
