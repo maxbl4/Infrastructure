@@ -8,13 +8,8 @@ namespace maxbl4.Infrastructure.Extensions.DictionaryExt
         public static TV Get<TK, TV>(this IDictionary<TK, TV> dict, TK key, Func<TK,TV> def = null)
         {
             if (def == null)
-                def = x => default(TV);
+                def = x => default;
             return dict.TryGetValue(key, out var v) ? v : def(key);
-        }
-        
-        public static TV Get<TK, TV>(this IDictionary<TK, TV> dict, TK key, TV defaultValue = default)
-        {
-            return dict.TryGetValue(key, out var val) ? val : defaultValue;
         }
         
         public static TV GetOrAdd<TK, TV>(this IDictionary<TK, TV> dict, TK key, Func<TK,TV> valueFactory)

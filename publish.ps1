@@ -1,4 +1,4 @@
-﻿#1.0.35
+﻿#1.0.36
 $packages = @(
     @{Name = "maxbl4.Infrastructure"; Project = "Infrastructure"}
 )
