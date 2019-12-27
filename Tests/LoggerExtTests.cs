@@ -1,7 +1,7 @@
 ﻿﻿using System;
 using System.Threading.Tasks;
+using FluentAssertions;
 using maxbl4.Infrastructure.Extensions.LoggerExt;
- using Shouldly;
 using Xunit;
 
 namespace maxbl4.Infrastructure.Tests
@@ -17,9 +17,9 @@ namespace maxbl4.Infrastructure.Tests
                 await Task.Delay(1);
                 throw new Exception();
             });
-            t.Wait(5000).ShouldBeTrue();
-            t.IsCompletedSuccessfully.ShouldBeTrue();
-            logger.messages.Count.ShouldBe(1);
+            t.Wait(5000).Should().BeTrue();
+            t.IsCompletedSuccessfully.Should().BeTrue();
+            logger.messages.Count.Should().Be(1);
         }
         
         [Fact]
@@ -30,9 +30,9 @@ namespace maxbl4.Infrastructure.Tests
             {
                 await Task.Delay(1);
             });
-            t.Wait(5000).ShouldBeTrue();
-            t.IsCompletedSuccessfully.ShouldBeTrue();
-            logger.messages.Count.ShouldBe(0);
+            t.Wait(5000).Should().BeTrue();
+            t.IsCompletedSuccessfully.Should().BeTrue();
+            logger.messages.Count.Should().Be(0);
         }
         
         [Fact]
@@ -48,9 +48,9 @@ namespace maxbl4.Infrastructure.Tests
                 logger.instance.Information("bbbbbb");
                 throw new ArgumentOutOfRangeException();
             });
-            logger.messages.Count.ShouldBe(4);
-            logger.messages.ShouldContain(x => x.Contains("aaaaa"));
-            logger.messages.ShouldContain(x => x.Contains("bbbbb"));
+            logger.messages.Count.Should().Be(4);
+            logger.messages.Should().Contain(x => x.Contains("aaaaa"));
+            logger.messages.Should().Contain(x => x.Contains("bbbbb"));
         }
     }
 }

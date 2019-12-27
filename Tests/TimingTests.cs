@@ -1,5 +1,5 @@
 using System;
-using Shouldly;
+using FluentAssertions;
 using Xunit;
 
 namespace maxbl4.Infrastructure.Tests
@@ -18,9 +18,9 @@ namespace maxbl4.Infrastructure.Tests
                     .FailureDetails(() => $"{details++}")
                     .Timeout(10)
                     .Expect(() => false));
-            ex.Message.ShouldMatch(@"\[Should_throw_with_caller_name\] Wait failed ctx after 00:00:00.\d+ details 101");
-            logger.messages[0].ShouldBe("[maxbl4.Infrastructure.Tests.TimingTests] Should_throw_with_caller_name => Begin wait ctx");
-            logger.messages[1].ShouldMatch(@"\[maxbl4.Infrastructure.Tests.TimingTests\] Should_throw_with_caller_name => Wait failed ctx after 00:00:00.\d+ details 101");
+            ex.Message.Should().MatchRegex(@"\[Should_throw_with_caller_name\] Wait failed ctx after 00:00:00.\d+ details 101");
+            logger.messages[0].Should().Be("[maxbl4.Infrastructure.Tests.TimingTests] Should_throw_with_caller_name => Begin wait ctx");
+            logger.messages[1].Should().MatchRegex(@"\[maxbl4.Infrastructure.Tests.TimingTests\] Should_throw_with_caller_name => Wait failed ctx after 00:00:00.\d+ details 101");
         }
         
         [Fact]
@@ -35,14 +35,14 @@ namespace maxbl4.Infrastructure.Tests
                     .Timeout(10000)
                     .Expect(() => true);
             
-            logger.messages[0].ShouldBe("[maxbl4.Infrastructure.Tests.TimingTests] Should_write_logs_on_success => Begin wait ctx");
-            logger.messages[1].ShouldMatch(@"\[maxbl4.Infrastructure.Tests.TimingTests\] Should_write_logs_on_success => Wait success ctx after 00:00:00.\d+");
+            logger.messages[0].Should().Be("[maxbl4.Infrastructure.Tests.TimingTests] Should_write_logs_on_success => Begin wait ctx");
+            logger.messages[1].Should().MatchRegex(@"\[maxbl4.Infrastructure.Tests.TimingTests\] Should_write_logs_on_success => Wait success ctx after 00:00:00.\d+");
         }
 
         [Fact]
         public void Should_work_without_logger()
         {
-            new Timing().Timeout(10).Wait(() => true).ShouldBeTrue();
+            new Timing().Timeout(10).Wait(() => true).Should().BeTrue();
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using Shouldly;
+﻿using FluentAssertions;
 using Xunit;
 
 namespace maxbl4.Infrastructure.Tests
@@ -10,8 +10,8 @@ namespace maxbl4.Infrastructure.Tests
         {
             var logger = MemoryLogger.Serilog();
             logger.instance.Debug("some");
-            logger.messages.Count.ShouldBe(1);
-            logger.messages[0].ShouldBe("some");
+            logger.messages.Count.Should().Be(1);
+            logger.messages[0].Should().Be("some");
         }
         
         [Fact]
@@ -19,8 +19,8 @@ namespace maxbl4.Infrastructure.Tests
         {
             var logger = MemoryLogger.Serilog<MemoryLoggerTests>();
             logger.instance.Debug("some");
-            logger.messages.Count.ShouldBe(1);
-            logger.messages[0].ShouldBe($"[{GetType().FullName}] some");
+            logger.messages.Count.Should().Be(1);
+            logger.messages[0].Should().Be($"[{GetType().FullName}] some");
         }
     }
 }
