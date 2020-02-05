@@ -20,12 +20,11 @@ namespace maxbl4.Infrastructure.Extensions.DictionaryExt
             return val;
         }
         
-        public static void AddOrUpdate<TK,TV>(this IDictionary<TK, TV> dict, TK key, TV newValue, Func<TK,TV,TV> update)
+        public static TV AddOrUpdate<TK,TV>(this IDictionary<TK, TV> dict, TK key, TV newValue, Func<TK,TV,TV> update)
         {
             if (!dict.ContainsKey(key))
-                dict[key] = newValue;
-            else
-                dict[key] = update(key, dict[key]);
+                return dict[key] = newValue;
+            return dict[key] = update(key, dict[key]);
         }
 
         public static TV UpdateOrAdd<TK, TV>(this IDictionary<TK, TV> dict, TK key, Func<TV, TV> updateFunc, TV defaultValue = default)
