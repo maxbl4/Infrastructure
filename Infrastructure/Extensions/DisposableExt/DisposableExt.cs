@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Serilog;
 
 namespace maxbl4.Infrastructure.Extensions.DisposableExt
@@ -16,6 +17,20 @@ namespace maxbl4.Infrastructure.Extensions.DisposableExt
             {
                 var logger = Log.ForContext(disposable.GetType());
                 logger.Warning("Dispose failed {ex}", e);
+            }
+        }
+        
+        public static async Task DisposeAsyncSafe(this IAsyncDisposable disposable)
+        {
+            if (disposable == null) return;
+            try
+            {
+                await disposable.DisposeAsync();
+            }
+            catch (Exception e)
+            {
+                var logger = Log.ForContext(disposable.GetType());
+                logger.Warning("DisposeAsync failed {ex}", e);
             }
         }
     }
