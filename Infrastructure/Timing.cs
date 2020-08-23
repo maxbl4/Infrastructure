@@ -85,5 +85,30 @@ namespace maxbl4.Infrastructure
             if (!await WaitAsync(condition, caller))
                 throw new TimeoutException($"[{caller}] Wait failed {context} after {stopwatch.Elapsed} details {failureDetails?.Value}");
         }
+        
+        public async Task<bool> WaitAsync(Func<Task<bool>> condition, [CallerMemberName]string caller = default)
+        {
+            logger?.Debug($"{caller} => Begin wait {context}");
+            stopwatch = Stopwatch.StartNew();
+            while (stopwatch.Elapsed < timeout)
+            {
+                if (await condition())
+                {
+                    logger?.Debug($"{caller} => Wait success {context} after {stopwatch.Elapsed}", 
+                        caller, context, stopwatch.Elapsed);
+                    return true;
+                }
+                await Task.Delay(pollingInterval);
+            }
+            stopwatch.Stop();
+            logger?.Debug($"{caller} => Wait failed {context} after {stopwatch.Elapsed} details {@failureDetails?.Value}");
+            return false;
+        }
+        
+        public async Task ExpectAsync(Func<Task<bool>> condition, [CallerMemberName]string caller = default)
+        {
+            if (!await WaitAsync(condition, caller))
+                throw new TimeoutException($"[{caller}] Wait failed {context} after {stopwatch.Elapsed} details {failureDetails?.Value}");
+        }
     }
 }

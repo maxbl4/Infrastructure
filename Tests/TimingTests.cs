@@ -1,6 +1,8 @@
 using System;
+using System.Threading.Tasks;
 using FluentAssertions;
 using Xunit;
+using Xunit.Sdk;
 
 namespace maxbl4.Infrastructure.Tests
 {
@@ -43,6 +45,19 @@ namespace maxbl4.Infrastructure.Tests
         public void Should_work_without_logger()
         {
             new Timing().Timeout(10).Wait(() => true).Should().BeTrue();
+        }
+        
+        [Fact]
+        public async Task Should_wait_for_async()
+        {
+            var complete = false;
+            await new Timing().Timeout(50).ExpectAsync(async () =>
+            {
+                await Task.Delay(10);
+                complete = true;
+                return true;
+            });
+            complete.Should().BeTrue();
         }
     }
 }
