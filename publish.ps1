@@ -1,4 +1,4 @@
-﻿#1.0.41
+﻿#1.0.42
 $packages = @(
     @{Name = "maxbl4.Infrastructure"; Project = "Infrastructure"}
 )
@@ -7,7 +7,7 @@ function Main()
 {
     $version = GetNextVersion
 
-    #dotnet test
+    dotnet test
     if (-not $?) { exit $? }
 
     foreach ($p in $packages){
