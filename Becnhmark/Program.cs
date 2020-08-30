@@ -23,16 +23,14 @@ namespace Becnhmark
             var hubs = new IMessageHub[]
             {
                 new ChannelMessageHub(),
-                new RxMessageHub(),
-                new EasyMessageHub(),
             };
             for (var i = 0; i < 2; i++)
             foreach (var hub in hubs)
             {
                 const int iterations = 1000000;
                 var calls = 0;
-                using var sub = hub.Subscribe<TestHubMessage>(x => Interlocked.Increment(ref counter));
-                using var sub2 = hub.SubscribeAsync<TestHubMessage>(async x =>
+                using var sub = hub.Subscribe<ChannelMessageHub.TestHubMessage>(x => Interlocked.Increment(ref counter));
+                using var sub2 = hub.SubscribeAsync<ChannelMessageHub.TestHubMessage>(async x =>
                 {
                     try
                     {
@@ -74,7 +72,7 @@ namespace Becnhmark
             counter = 0;
             for (var i = 0; i < count; i++)
             {
-                hub.Publish(new TestHubMessage {Index = i});
+                hub.Publish(new ChannelMessageHub.TestHubMessage {Index = i});
             }
             new Timing()
                 .Timeout(30000)
