@@ -116,8 +116,9 @@ namespace maxbl4.Infrastructure.Tests
 
         IMessageHub GetMessageHub()
         {
-            //return new ChannelMessageHub();
-            return new RxMessageHub();
+            return new ChannelMessageHub();
+            //return new RxMessageHub();
+            return new EasyMessageHub();
         }
     }
 }

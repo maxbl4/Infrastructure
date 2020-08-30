@@ -1,0 +1,22 @@
+﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=25740733_002Df164_002D46f4_002D96c5_002D5d86d7c050e3/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Run_task_sync" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;xUnit::09E9B2A2-BE47-416A-A481-51387716D224::.NETCoreApp,Version=v3.0::maxbl4.Infrastructure.Tests.TaskExtTests.Run_task_sync&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=5292b430_002D1bf8_002D41c2_002Db269_002D1ea62310c304/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="Subscribe_sync" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;Project Location="C:\Users\vlpereva\src\Infrastructure\Tests" Presentation="&amp;lt;Tests&amp;gt;" /&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=c09f7fed_002Dc35f_002D4cd7_002D9fac_002D9d8d41735c47/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="All tests from Solution" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;Solution /&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=cedb7ae2_002D69a2_002D4e53_002D8835_002D7f52d975bf6b/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Should_wait_for_async" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;xUnit::09E9B2A2-BE47-416A-A481-51387716D224::.NETCoreApp,Version=v3.0::maxbl4.Infrastructure.Tests.TimingTests.Should_wait_for_async&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=f8060dfb_002D27c2_002D42b6_002Da860_002Dd9c2d59f365d/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Subscribe_sync #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;xUnit::09E9B2A2-BE47-416A-A481-51387716D224::.NETCoreApp,Version=v3.0::maxbl4.Infrastructure.Tests.MessageHubTests.Subscribe_sync&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>

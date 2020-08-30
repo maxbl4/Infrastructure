@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Dynamic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Channels;
@@ -10,13 +11,17 @@ using Serilog;
 
 namespace maxbl4.Infrastructure.MessageHub
 {
+    /// <summary>
+    /// MessageHUb based on Channel<T> with dedicated dispatcher thread.
+    /// All subscriptions are processed in series.
+    /// </summary>
     public class ChannelMessageHub: IMessageHub
     {
         private volatile bool disposed = false;
         private readonly ILogger logger = Log.ForContext<ChannelMessageHub>();
         private readonly Channel<object> channel = Channel.CreateUnbounded<object>();
         private readonly ReaderWriterLockSlim rwLock = new ReaderWriterLockSlim();
-        private readonly List<Subscription> subscriptions = new List<Subscription>();
+        private List<Subscription> subscriptions = new List<Subscription>();
         private Stopwatch sw;
 
         public ChannelMessageHub()
@@ -27,44 +32,29 @@ namespace maxbl4.Infrastructure.MessageHub
 
         async Task ChannelReader()
         {
-            Console.WriteLine($"{sw.ElapsedMilliseconds} ChannelReader Start");
             try
             {
                 while (!disposed)
                 {
-                    Console.WriteLine($"{sw.ElapsedMilliseconds} {Thread.CurrentThread.ManagedThreadId} ChannelReader Start loop");
                     var message = await channel.Reader.ReadAsync();
-                    Console.WriteLine($"{sw.ElapsedMilliseconds} {Thread.CurrentThread.ManagedThreadId} ChannelReader Read Message {(message as TestHubMessage)?.Index}");
                     if (message == null) continue;
-                    List<Subscription> currentSubs;
-                    try
-                    {
-                        rwLock.EnterReadLock();
-                        currentSubs = subscriptions.ToList();
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine($"{sw.ElapsedMilliseconds} {Thread.CurrentThread.ManagedThreadId} ChannelReader Handler loop error {ex}");
-                        continue;
-                    }
-                    finally
-                    {
-                        rwLock.ExitReadLock();
-                    }
+
+                    rwLock.EnterReadLock();
+                    var currentSubs = subscriptions;
+                    rwLock.ExitReadLock();
+                    
                     foreach (var sub in currentSubs.Where(x => x.MessageType.IsInstanceOfType(message)))
                     {
-                        Console.WriteLine($"{sw.ElapsedMilliseconds} {Thread.CurrentThread.ManagedThreadId} ChannelReader Invoke handler {(message as TestHubMessage)?.Index}");
                         if (sub.IsAsync)
                             await logger.Swallow(() => sub.InvokeAsync(message));
                         else
-                            logger.Swallow(() => _ = sub.InvokeAsync(message));
-                        Console.WriteLine($"{sw.ElapsedMilliseconds} {Thread.CurrentThread.ManagedThreadId} ChannelReader handler completed {(message as TestHubMessage)?.Index}");
+                            logger.Swallow(() => sub.Invoke(message));
                     }
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"{sw.ElapsedMilliseconds} ChannelReader Error {ex}");
+                logger.Fatal("ChannelMessageHub reader loop failed", ex);
             }
         }
         
@@ -82,7 +72,9 @@ namespace maxbl4.Infrastructure.MessageHub
                 {
                     Handler = action
                 };
-                subscriptions.Add(sub);
+                var subs = subscriptions.ToList();
+                subs.Add(sub);
+                subscriptions = subs; 
                 return sub;
             }
             finally
@@ -97,7 +89,9 @@ namespace maxbl4.Infrastructure.MessageHub
             {
                 rwLock.EnterWriteLock();
                 var sub = new Subscription<T>(this) { AsyncHandler = action };
-                subscriptions.Add(sub);
+                var subs = subscriptions.ToList();
+                subs.Add(sub);
+                subscriptions = subs;
                 return sub;
             }
             finally
@@ -108,7 +102,6 @@ namespace maxbl4.Infrastructure.MessageHub
 
         public void Dispose()
         {
-            Console.WriteLine($"{sw.ElapsedMilliseconds} Hub disposing");
             disposed = true;
         }
 
@@ -116,9 +109,10 @@ namespace maxbl4.Infrastructure.MessageHub
         {
             try
             {
-                Console.WriteLine($"{sw.ElapsedMilliseconds} Sub disposing");
                 rwLock.EnterWriteLock();
-                subscriptions.Remove(sub);
+                var subs = subscriptions.ToList();
+                subs.Remove(sub);
+                subscriptions = subs;
             }
             finally
             {
@@ -141,6 +135,7 @@ namespace maxbl4.Infrastructure.MessageHub
                 owner.Unsubscribe(this);
             }
 
+            public abstract void Invoke(object message);
             public abstract Task InvokeAsync(object message);
             public abstract bool IsAsync { get; }
         }
@@ -154,13 +149,13 @@ namespace maxbl4.Infrastructure.MessageHub
 
             public override bool IsAsync => AsyncHandler != null;
             
+            public override void Invoke(object message)
+            {
+                Handler((T)message);
+            }
+            
             public override Task InvokeAsync(object message)
             {
-                if (Handler != null)
-                {
-                    Handler((T)message);
-                    return Task.CompletedTask;
-                }
                 return AsyncHandler((T)message);
             }
             
