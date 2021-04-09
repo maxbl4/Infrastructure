@@ -4,7 +4,7 @@
     &lt;TestId&gt;xUnit::09E9B2A2-BE47-416A-A481-51387716D224::.NETCoreApp,Version=v3.0::maxbl4.Infrastructure.Tests.TaskExtTests.Run_task_sync&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=5292b430_002D1bf8_002D41c2_002Db269_002D1ea62310c304/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="Subscribe_sync" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=5292b430_002D1bf8_002D41c2_002Db269_002D1ea62310c304/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Subscribe_sync" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;Project Location="C:\Users\vlpereva\src\Infrastructure\Tests" Presentation="&amp;lt;Tests&amp;gt;" /&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=c09f7fed_002Dc35f_002D4cd7_002D9fac_002D9d8d41735c47/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="All tests from Solution" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
@@ -15,8 +15,10 @@
     &lt;TestId&gt;xUnit::09E9B2A2-BE47-416A-A481-51387716D224::.NETCoreApp,Version=v3.0::maxbl4.Infrastructure.Tests.TimingTests.Should_wait_for_async&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=f8060dfb_002D27c2_002D42b6_002Da860_002Dd9c2d59f365d/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Subscribe_sync #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=f8060dfb_002D27c2_002D42b6_002Da860_002Dd9c2d59f365d/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="Subscribe_sync #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
     &lt;TestId&gt;xUnit::09E9B2A2-BE47-416A-A481-51387716D224::.NETCoreApp,Version=v3.0::maxbl4.Infrastructure.Tests.MessageHubTests.Subscribe_sync&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::09E9B2A2-BE47-416A-A481-51387716D224::.NETCoreApp,Version=v3.0::maxbl4.Infrastructure.Tests.AsyncInitTests.Init&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::09E9B2A2-BE47-416A-A481-51387716D224::.NETCoreApp,Version=v3.0::maxbl4.Infrastructure.Tests.AsyncInitTests&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>
