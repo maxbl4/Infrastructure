@@ -1,4 +1,4 @@
-#1.0.45
+#1.0.46
 $packages = @(
     @{Name = "maxbl4.Infrastructure"; Project = "Infrastructure"}
 )
@@ -25,7 +25,7 @@ function Pack($pkg, $version)
     if (-not $?) { exit; }
     nuget push -Source NugetLocal $nupkg
     if (-not $?) { exit; }
-    nuget push $nupkg
+    nuget push -Source nuget.org $nupkg
     if (-not $?) { exit; }
 }
 
